@@ -11,6 +11,7 @@ fi
 if [ ! -a fe-env-conf-config.sh ]; then
     read -p "Укажите ваш username (например, o.lisovskaya):" username
     read -p "Укажите ваш проект (например, realty.ngs.ru):" project
+    read -p "jiraid (например, rn):" jiraid
     read -p "Укажите репу вашего проекта (например, ssh://git@git.rn/ngs/rn.git). Можно посмотреть на git.rn:" projectrep
     read -p "Какой name в git'е хотите? (например, Olga Lisovskaya):" gitname
 
@@ -19,5 +20,5 @@ else
     source fe-env-conf-config.sh
 fi
 
-ssh root@ngs.ru.$1 "username=$username project=$project bash -s" < fe-env-conf-user.sh
-ssh $username@ngs.ru.$1 "username=$username project=$project projectrep=$projectrep $gitname=gitname bash -s" < fe-env-conf-other.sh
+ssh root@ngs.ru.$1 "username=$username project=$project bash -s" < fe-env-conf-user.sh && \
+ssh $username@ngs.ru.$1 "env=$1 username=$username project=$project jiraid=$jiraid projectrep=$projectrep $gitname=gitname bash -s" < fe-env-conf-other.sh && \
