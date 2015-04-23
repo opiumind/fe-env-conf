@@ -23,6 +23,11 @@ echo "Прописываю в git'е name и email"
 git config --global user.gitname "$gitname"
 git config --global user.email "$username@office.ngs.ru"
 
+git init
+git remote add origin путь-до-репы
+git pull
+git checkout -fB master origin/master
+
 # echo "Последний шаг. Устанавливаю последнюю версию нгс.фреймворка"
 
 # ln -s $(find /data/releases/framework.ngs.ru/ -type d -maxdepth=1 | sort -nr | head -n1)/library ./framework
