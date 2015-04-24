@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #1 Скрипт, который нужно запустить, чтобы началась автоматичсекая настройка среды
 # $1=o.d
@@ -8,7 +8,7 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-if [ ! -a fe-env-conf-config.sh ]; then
+if [ ! -e fe-env-conf-config.sh ]; then
     read -p "Укажите ваш username (например, o.lisovskaya):" username
     read -p "Укажите ваш проект (например, realty.ngs.ru):" project
     read -p "jiraid (например, rn):" jiraid
