@@ -2,35 +2,20 @@
 
 #3 Пользовательские настройки среды
 
-echo "Генерю ключ"
-ssh-keygen -t rsa -C "$username@office.ngs.ru"
-cat /home/$username/.ssh/id_rsa.pub
-echo "Скопируйте, плиз, ключ в http://git.rn/plugins/servlet/ssh/account/keys"
-read tmp_
+cat /home/$username/.ssh/id_rsa.pub && \
+echo -e '\E[37;44m'"\033[1mСкопируйте, плиз, ключ в http://git.rn/plugins/servlet/ssh/account/keys\033[0m" && \
 
-echo "Займемся проектом..."
-#ngs.<jiraid> project.deploy:<version>
-version=$(ssh $username@ngs.ru.$env 'echo $(curl -s dev.ngs.local/projects/ | grep realty.ngs.ru -A3 | tail -n-1)') && \
-ngs.$jiraid project.deploy:$version && \
+echo -e '\E[37;44m'"\033[1mЕще чуть-чуть. Ставлю git\033[0m" && \
+sudo apt-get install git-core && \
 
-echo "Еще чуть-чуть. Ставлю git"
-sudo apt-get install git-core
-# cd /data/projects/$project/
+echo -e '\E[37;44m'"\033[1mПрописываю в git'е name и email\033[0m" && \
+git config --global user.gitname "$gitname" && \
+git config --global user.email "$username@office.ngs.ru" && \
 
-# git clone $projectrep .
+git init && \
+git remote add origin $projectrep && \
+git pull && \
+git checkout -fB master origin/master && \
 
-echo "Прописываю в git'е name и email"
-git config --global user.gitname "$gitname"
-git config --global user.email "$username@office.ngs.ru"
-
-git init
-git remote add origin путь-до-репы
-git pull
-git checkout -fB master origin/master
-
-# echo "Последний шаг. Устанавливаю последнюю версию нгс.фреймворка"
-
-# ln -s $(find /data/releases/framework.ngs.ru/ -type d -maxdepth=1 | sort -nr | head -n1)/library ./framework
-
-echo "Все сделано. Хорошего настроения :)"
+echo -e '\E[37;44m'"\033[1mВсе сделано. Хорошего настроения :)\033[0m"
 exit 0

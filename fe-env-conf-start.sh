@@ -4,39 +4,51 @@
 # $1=o.d
 
 if [ -z "$1" ]; then
-    echo "Вы забыли указать при запуске скрипта название вашей среды (например, ig.d)"
+    echo -e '\E[37;44m'"\033[1mВы забыли указать при запуске скрипта название вашей среды (например, ig.d)\033[0m"
     exit 1
 fi
 
 if [ ! -e fe-env-conf-config.sh ]; then
-    echo "Требуется fe-env-conf-config.sh в текущей директории, а его почему-то нет :("
+    echo -e '\E[37;44m'"\033[1mТребуется fe-env-conf-config.sh в текущей директории, а его почему-то нет :(\033[0m"
 else
     source fe-env-conf-config.sh
 fi
 
 if [ -z "$username" ]; then
-    read -p "Укажите ваш username (например, o.lisovskaya):" username
+    read -p $'\033'"[1;37;44mУкажите ваш username (например, o.lisovskaya):"$'\033'"[0m " username
 fi
 
 if [ -z "$project" ]; then
-    read -p "Укажите ваш проект (например, realty.ngs.ru):" project
+    read -p $'\033'"[1;37;44mУкажите ваш проект (например, realty.ngs.ru):"$'\033'"[0m " project
 fi
 
 if [ -z "$jiraid" ]; then
-    read -p "jiraid (например, rn):" jiraid
+    read -p $'\033'"[1;37;44mjiraid (например, rn):"$'\033'"[0m " jiraid
 fi
 
 if [ -z "$projectrep" ]; then
-    read -p "Укажите репу вашего проекта (например, ssh://git@git.rn/ngs/rn.git). Можно посмотреть на git.rn:" projectrep
+    read -p $'\033'"[1;37;44mУкажите репу вашего проекта (например, ssh://git@git.rn/ngs/rn.git). Можно посмотреть на git.rn:"$'\033'"[0m " projectrep
 fi
 
 if [ -z "$gitname" ]; then
-    read -p "Какой name в git'е хотите? (например, Olga Lisovskaya):" gitname
+    read -p $'\033'"[1;37;44m\033[1;37;44mКакой name в git'е хотите? (например, Olga Lisovskaya):"$'\033'"[0m " gitname
 fi
 
-    # echo "Советую указать эти данные в fe-env-conf-config.sh, чтобы в следующий раз не пришлось вводить вручную."
+ssh-keygen -R ngs.ru.$1 && \
 
-ssh root@ngs.ru.$1 "username=$username project=$project bash -s" < fe-env-conf-user.sh && \
-echo "Подключились по ssh под рутом"
-ssh $username@ngs.ru.$1 "env=$1 username=$username project=$project jiraid=$jiraid projectrep=$projectrep $gitname=gitname bash -s" < fe-env-conf-other.sh && \
-echo "Подключились по ssh под вашим пользователем"
+echo -e '\E[37;44m'"\033[1mВведите, пожалуйста, пароль рута (123123)\033[0m" && \
+ssh-copy-id root@ngs.ru.$1 && \
+
+ssh root@ngs.ru.$1 "username=$username project=$project jiraid=$jiraid bash -s" < fe-env-conf-user.sh && \
+
+echo -e '\E[37;44m'"\033[1mСейчас надо будет задать пароль своему будущему пользователю\033[0m" && \
+ssh root@ngs.ru.$1 -t passwd $username && \
+
+echo -e '\E[37;44m'"\033[1mГенерю ключ. Жмите на enter\033[0m" && \
+ssh $username@ngs.ru.$1 -t "ssh-keygen -t rsa -C \"$username@office.ngs.ru\"" && \
+echo -e '\E[37;44m'"\033[1mКлючик готов\033[0m" && \
+
+ssh $username@ngs.ru.$1 "env=$1 username=$username project=$project projectrep=$projectrep $gitname=gitname bash -s" < fe-env-conf-other.sh && \
+
+echo "Почему-то я здесь"
+exit 1
