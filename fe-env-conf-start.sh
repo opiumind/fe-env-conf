@@ -49,14 +49,16 @@ cd /home/
 mkdir $username
 chown $username:$username $username
 adduser $username sudo
+WHERE
 
 echo -e '\E[37;44m'"\033[1mСейчас комрад поработает\033[0m"
-version=$(echo $(curl -s dev.ngs.local/projects/ | grep realty.ngs.ru -A3 | tail -n-1))
-echo "--\$version--"
-ngs.$jiraid project.deploy:\$version
+project_version=$(echo $(curl -s dev.ngs.local/projects/ | grep realty.ngs.ru -A3 | tail -n-1))
+echo "Насколько я понял, это последняя версия проекта: \$project_version"
 
-sudo chown $username:$username $project
-WHERE
+
+ssh root@ngs.ru.$1 "ngs.$jiraid project.deploy:$project_version"
+
+ssh root@ngs.ru.$1 "sudo chown $username:$username -R /data/projects/$project"
 
 echo -e '\E[37;44m'"\033[1mСейчас надо будет задать пароль своему будущему пользователю\033[0m"
 ssh root@ngs.ru.$1 -t passwd $username
@@ -73,17 +75,26 @@ read _tmp
 
 ssh root@ngs.ru.$1 "bash -s" <<THERE
 echo -e '\E[37;44m'"\033[1mЕще чуть-чуть. Ставлю git\033[0m"
-sudo -u $username apt-get install git-core
+sudo apt-get install git-core
+
+sudo -iu $username bash -s <<OWCH
+cd /data/projects/$project
 
 echo -e '\E[37;44m'"\033[1mПрописываю в git'е name и email\033[0m"
-sudo -u $username git config --global user.gitname "$gitname"
-sudo -u $username git config --global user.email "$username@office.ngs.ru"
+git config --global user.gitname "$gitname"
+git config --global user.email "$username@office.ngs.ru"
 
 echo -e '\E[37;44m'"\033[1mИнициализирую репозиторий проекта\033[0m"
-sudo -u $username git init
-sudo -u $username git remote add origin $projectrep
-sudo -u $username git pull
-sudo -u $username git checkout -fB master origin/master
+git init
+git remote add origin $projectrep
+
+ssh-keygen -R git.rn
+ssh-keyscan -H git.rn >> ~/.ssh/known_hosts
+
+git pull
+
+git checkout -fB master origin/master
+OWCH
 
 echo -e '\E[37;44m'"\033[1mВсе сделано. Хорошего настроения :)\033[0m"
 THERE
