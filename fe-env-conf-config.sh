@@ -1,7 +1,7 @@
 # Данные, необходимые для автоматичсекой настройки среды
 
 # Ваш username (например, o.lisovskaya):
-# username=o.lisovskaya
+username=o.lisovskaya
 
 # Ваш проект (например, realty.ngs.ru):
 project=realty.ngs.ru
