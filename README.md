@@ -13,12 +13,13 @@
  3. Запустите скрипт fe-env-conf-start.sh у себя на локальной машине из той директории, где он лежит, передав при этом аргументом название среды, например:
 
     cd /home/user/fe-env-conf
-    
+
     fe-env-conf-start.sh lol.d
 
  4. Далее следуйте инструкциям, которые будут в логе выполнения скрипта
 
  5. При монтировании директории с проектом к себе локально через sshfs укажите параметр follow_symlinks:
+
     sshfs -o follow_symlinks,nonempty o.lisovskaya@ngs.ru.lol.d:/data/projects /home/lisovskaya/projects/
 
 
