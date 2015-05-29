@@ -52,7 +52,7 @@ adduser $username sudo
 WHERE
 
 echo -e '\E[37;44m'"\033[1mСейчас комрад поработает\033[0m"
-project_version=$(echo $(curl -s dev.ngs.local/projects/ | grep realty.ngs.ru -A3 | tail -n-1))
+project_version=$(echo $(curl -s dev.ngs.local/projects/ | grep $project -A3 | tail -n-1))
 echo "Насколько я понял, это последняя версия проекта: "$project_version
 
 
