@@ -4,13 +4,13 @@
 username=o.lisovskaya
 
 # Ваш проект (например, realty.ngs.ru):
-project=n1.ru
+project=realty.ngs.ru
 
 # jiraid (например rn):
-jiraid=realty
+jiraid=rn
 
 # Репа вашего проекта (например, ssh://git@git.rn/ngs/rn.git). Можно посмотреть на git.rn.
-projectrep=ssh://git@git.rn/n1/webapp.git
+projectrep=ssh://git@git.rn/ngs/rn.git
 
 # Какой name в git'е хотите? (например, Olga Lisovskaya):
 gitname="Olga Lisovskaya"
