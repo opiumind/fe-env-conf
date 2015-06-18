@@ -10,7 +10,7 @@ project=n1.ru
 jiraid=realty
 
 # Репа вашего проекта (например, ssh://git@git.rn/ngs/rn.git). Можно посмотреть на git.rn.
-projectrep=ssh://git@git.rn/ngs/realty.git
+projectrep=ssh://git@git.rn/n1/webapp.git
 
 # Какой name в git'е хотите? (например, Olga Lisovskaya):
 gitname="Olga Lisovskaya"

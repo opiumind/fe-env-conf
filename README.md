@@ -14,7 +14,7 @@ __Алгоритм действий:__
 
     cd /home/user/fe-env-conf
 
-    fe-env-conf-start.sh lol.d
+    ./fe-env-conf-start.sh lol.d
 
  4. Далее следуйте инструкциям, которые будут в логе выполнения скрипта
 
